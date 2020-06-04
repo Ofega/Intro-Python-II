@@ -55,7 +55,7 @@ quit = False
 while not quit:
 
     print(
-        f"Hello {player.name}! You are in the room {player.room.name}, {player.room.description}.")
+        f"Hello {player.name}! You are in the room {player.current_room.name}, {player.current_room.description}.")
 
     selection = input(
         "Where would you like to go? \n North(n) \n South(s) \n West(w)\n East(e) \n\n Please Input Direction:  ")
@@ -68,41 +68,40 @@ while not quit:
         try:
             selection = selection.lower().strip()[0]
 
-            if 'Outside' in player.room.name:
+            if 'Outside' in player.current_room.name:
                 if selection != "n":
                     print('oh my, that way leads to destruction, you cannot go')
                 else:
-                    player.room = room["foyer"]
-
-            elif 'Foyer' in player.room.name:
+                    player.current_room = room["foyer"]
+            elif 'Foyer' in player.current_room.name:
                 if selection == "n":
-                    player.room = room["overlook"]
+                    player.current_room = room["overlook"]
                 elif selection == "s":
-                    player.room = room["outside"]
+                    player.current_room = room["outside"]
                 elif selection == "e":
-                    player.room = room["narrow"]
+                    player.current_room = room["narrow"]
                 elif (selection == "w"):
                     print('oh my, that way leads to destruction, you cannot go')
 
-            elif 'Narrow' in player.room.name:
+            elif 'Narrow' in player.current_room.name:
                 if selection == "n":
-                    player.room = room["treasure"]
+                    player.current_room = room["treasure"]
                 elif selection == "w":
-                    player.room = room["foyer"]
+                    player.current_room = room["foyer"]
                 elif (selection == "e") or (selection == "s"):
                     print('oh my, that way leads to destruction, you cannot go')
 
-            elif 'Treasure' in player.room.name:
+            elif 'Treasure' in player.current_room.name:
                 if selection != "s":
                     print('oh my, that way leads to destruction, you cannot go')
                 else:
-                    player.room = room["narrow"]
+                    player.current_room = room["narrow"]
 
-            elif 'Overlook' in player.room.name:
+            elif 'Overlook' in player.current_room.name:
                 if selection != "s":
                     print('oh my, that way leads to destruction, you cannot go')
                 else:
-                    player.room = room["foyer"]
+                    player.current_room = room["foyer"]
 
         except TypeError:
             print('enter your direction as an alphabet e.g west or w')
