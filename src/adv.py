@@ -1,5 +1,5 @@
 from room import Room
-
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -38,7 +38,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-
+player = Player('Chioma', room['outside'])
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +49,59 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+quit = False
+
+
+while not quit:
+
+    print(
+        f"Hello {player.name}! You are in the room {player.current_room.name}, {player.current_room.description}.")
+
+    selection = input(
+        "Where would you like to go? \n North(n) \n South(s) \n West(w)\n East(e) \n\n Please Input Direction:  ")
+
+    if selection == "q":
+        quit = True
+        print("You Quit, Game Over")
+        break
+    else:
+        try:
+            selection = selection.lower().strip()[0]
+
+            if 'Outside' in player.current_room.name:
+                if selection != "n":
+                    print('oh my, that way leads to destruction, you cannot go')
+                else:
+                    player.current_room = room["foyer"]
+            elif 'Foyer' in player.current_room.name:
+                if selection == "n":
+                    player.current_room = room["overlook"]
+                elif selection == "s":
+                    player.current_room = room["outside"]
+                elif selection == "e":
+                    player.current_room = room["narrow"]
+                elif (selection == "w"):
+                    print('oh my, that way leads to destruction, you cannot go')
+
+            elif 'Narrow' in player.current_room.name:
+                if selection == "n":
+                    player.current_room = room["treasure"]
+                elif selection == "w":
+                    player.current_room = room["foyer"]
+                elif (selection == "e") or (selection == "s"):
+                    print('oh my, that way leads to destruction, you cannot go')
+
+            elif 'Treasure' in player.current_room.name:
+                if selection != "s":
+                    print('oh my, that way leads to destruction, you cannot go')
+                else:
+                    player.current_room = room["narrow"]
+
+            elif 'Overlook' in player.current_room.name:
+                if selection != "s":
+                    print('oh my, that way leads to destruction, you cannot go')
+                else:
+                    player.current_room = room["foyer"]
+
+        except TypeError:
+            print('enter your direction as an alphabet e.g west or w')
